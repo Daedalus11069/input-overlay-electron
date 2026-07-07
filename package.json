@@ -8,7 +8,7 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "publish": "echo \"No publish script configured\"",
     "lint": "echo \"No linting configured\"",
     "build-installer": "electron-builder"
   },
@@ -24,14 +24,13 @@
     "nsis": {
       "installerIcon": "src/icon.ico",
       "uninstallerIcon": "src/icon.ico",
-      "uninstallDisplayName": "Input Overlay",
+      "uninstallDisplayName": "CPU Monitor",
       "license": "license.txt",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     }
   },
   "keywords": [],
-  "license": "MIT",
   "config": {
     "forge": {
       "packagerConfig": {},
@@ -39,7 +38,8 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "input_overlay_electron"
+            "name": "input_overlay_electron",
+            "authors": "Daedalus11069"
           }
         },
         {

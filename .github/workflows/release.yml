@@ -24,10 +24,20 @@ jobs:
               with:
                   node-version: 22
 
-            - name: Build/release Electron app
-              uses: wenwuwu/action-electron-forge@v1.4.0
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build
+              run: npm run make
+
+            - name: Update Release with Files
+              id: create_version_release
+              uses: ncipollo/release-action@v1
               with:
-                  # GitHub token, automatically provided to the action
-                  # (No need to define this secret in the repo settings)
-                  github_token: ${{ secrets.github_token }}
-                  release: true
+                  allowUpdates: true # Set this to false if you want to prevent updating existing releases
+                  name: ${{ github.event.release.name }}
+                  prerelease: ${{ github.event.release.prerelease }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  artifacts: "out/make/**/*.exe, out/make/**/*.dmg, out/make/**/*.AppImage"
+                  tag: ${{ github.event.release.tag_name }}
+                  body: ${{ github.event.release.body }}
