@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -26,6 +26,12 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
+
+      - name: Install X11 Build Dependencies (Linux Only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxtst-dev libxi-dev
 
       - name: Install dependencies
         run: npm ci
