@@ -347,6 +347,8 @@ async function renderOverlay() {
   const config = await window.electronAPI.getConfig();
   currentConfig = config;
 
+  document.title = config.label?.trim() || "Input Overlay";
+
   applyBackground(config);
 
   const canvas = document.getElementById("overlay-canvas");
