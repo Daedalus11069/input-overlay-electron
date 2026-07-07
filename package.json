@@ -1,7 +1,7 @@
 {
   "name": "input-overlay-electron",
   "productName": "Input-Overlay",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "My Electron application description",
   "license": "GPL-2.0-only",
   "main": "src/index.js",
