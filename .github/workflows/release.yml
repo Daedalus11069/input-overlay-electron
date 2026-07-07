@@ -47,6 +47,6 @@ jobs:
           name: ${{ github.event.release.name }}
           prerelease: ${{ github.event.release.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: "out/make/**/*.exe, out/make/**/*.dmg, out/make/**/*.AppImage"
+          artifacts: "out/make/**/*.exe, out/make/**/*.deb, out/make/**/*.rpm, out/make/**/*.zip"
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
