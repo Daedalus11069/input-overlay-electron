@@ -1,6 +1,6 @@
 {
   "name": "input-overlay-electron",
-  "productName": "Input Overlay",
+  "productName": "Input-Overlay",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/index.js",
@@ -33,7 +33,10 @@
   "keywords": [],
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "executableName": "input-overlay-electron",
+        "icon": "src/icon.ico"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
