@@ -1,0 +1,553 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overlay Settings</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: #1e1e1e;
+        color: #cccccc;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #ffffff;
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+
+      .subtitle {
+        color: #888;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+
+      .section {
+        background: #252526;
+        border: 1px solid #3e3e42;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .section h2 {
+        color: #ffffff;
+        font-size: 18px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #3e3e42;
+        padding-bottom: 10px;
+      }
+
+      .setting-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #333;
+      }
+
+      .setting-row:last-child {
+        border-bottom: none;
+      }
+
+      .setting-label {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .setting-label h3 {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+
+      .setting-label p {
+        color: #888;
+        font-size: 12px;
+      }
+
+      .setting-control {
+        flex-shrink: 0;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #3e3e42;
+        transition: 0.3s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #0e639c;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+
+      select,
+      input[type="number"],
+      input[type="text"] {
+        background: #3c3c3c;
+        border: 1px solid #555;
+        color: #cccccc;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        min-width: 150px;
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: #0e639c;
+      }
+
+      .key-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .key-option {
+        background: #3c3c3c;
+        border: 2px solid #555;
+        color: #cccccc;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s;
+      }
+
+      .key-option:hover {
+        border-color: #777;
+      }
+
+      .key-option.selected {
+        background: #0e639c;
+        border-color: #0e639c;
+        color: white;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      button {
+        background: #0e639c;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #1177bb;
+      }
+
+      button.secondary {
+        background: #3e3e42;
+      }
+
+      button.secondary:hover {
+        background: #4e4e52;
+      }
+
+      .info {
+        background: #2d3748;
+        border-left: 4px solid #0e639c;
+        padding: 12px;
+        border-radius: 4px;
+        margin-top: 20px;
+        font-size: 13px;
+      }
+
+      .file-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        max-width: 420px;
+      }
+
+      .file-path {
+        color: #888;
+        font-size: 11px;
+        max-width: 240px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        direction: rtl;
+        text-align: left;
+        display: block;
+      }
+
+      .preset-info-badge {
+        color: #4ec9b0;
+        font-size: 12px;
+        background: #1e3a3a;
+        border: 1px solid #4ec9b0;
+        border-radius: 4px;
+        padding: 4px 10px;
+      }
+
+      button.small {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Input Overlay Settings</h1>
+      <p class="subtitle">
+        Configure which inputs to display and how the overlay appears
+      </p>
+
+      <div class="section" style="padding: 12px 20px">
+        <div class="setting-row" style="border-bottom: none; padding: 6px 0">
+          <div class="setting-label">
+            <h3>Overlay Name</h3>
+            <p>Label shown in the system tray menu</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="text"
+              id="overlayLabel"
+              placeholder="Overlay"
+              style="min-width: 200px"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PRESET SECTION ===== -->
+      <div class="section">
+        <h2>Preset Layout</h2>
+        <p style="margin-bottom: 15px; color: #888; font-size: 13px">
+          Load an OBS input-overlay preset (JSON + matching .png sprite sheet)
+          to use a fully custom layout. When a preset is active, the keyboard /
+          mouse component settings below are ignored.
+        </p>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Preset File</h3>
+            <p>JSON layout defining element positions and sprite mappings</p>
+          </div>
+          <div class="setting-control file-control">
+            <span class="file-path" id="presetFilePath"
+              >No preset selected</span
+            >
+            <button id="selectPresetBtn">Browse…</button>
+            <button
+              class="secondary small"
+              id="clearPresetBtn"
+              style="display: none"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-row" id="presetInfoRow" style="display: none">
+          <div class="setting-label">
+            <h3>Loaded Preset</h3>
+          </div>
+          <div class="setting-control">
+            <span class="preset-info-badge" id="presetInfoText"></span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Sprite Sheet Image</h3>
+            <p>
+              Override the auto-detected image (leave blank to use .png with
+              same name)
+            </p>
+          </div>
+          <div class="setting-control file-control">
+            <span class="file-path" id="imageFilePath"
+              >Auto-detect from preset</span
+            >
+            <button class="secondary" id="selectImageBtn">Browse…</button>
+            <button
+              class="secondary small"
+              id="clearImageBtn"
+              style="display: none"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Pressed State</h3>
+            <p>
+              <b>Highlight tint</b>: overlay a colour when pressed (works with
+              any image).<br />
+              <b>Sprite offset</b>: use the row directly below in the sprite
+              sheet (standard OBS input-overlay format).
+            </p>
+          </div>
+          <div class="setting-control">
+            <select id="pressedMode">
+              <option value="highlight">Highlight Tint</option>
+              <option value="sprite-offset">
+                Sprite Offset (row below in sheet)
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- ===== END PRESET SECTION ===== -->
+
+      <div class="section">
+        <h2>Overlay Components</h2>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Show Keyboard Overlay</h3>
+            <p>Display keyboard input visualization</p>
+          </div>
+          <div class="setting-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="keyboardEnabled" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Show Mouse Overlay</h3>
+            <p>Display mouse button visualization</p>
+          </div>
+          <div class="setting-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="mouseEnabled" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="keyboardSection">
+        <h2>Keyboard Keys</h2>
+        <p style="margin-bottom: 15px; color: #888; font-size: 13px">
+          Select which keys to display in the overlay
+        </p>
+        <div class="key-selector" id="keySelector"></div>
+      </div>
+
+      <div class="section">
+        <h2>Window Position</h2>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Snap to Corner</h3>
+            <p>
+              Move the overlay to a screen corner (does not affect free-drag
+              position)
+            </p>
+          </div>
+          <div class="setting-control" style="gap: 8px">
+            <select id="windowPosition">
+              <option value="top-left">Top Left</option>
+              <option value="top-right">Top Right</option>
+              <option value="bottom-left">Bottom Left</option>
+              <option value="bottom-right">Bottom Right</option>
+            </select>
+            <button
+              id="applyPositionBtn"
+              style="padding: 6px 14px; font-size: 13px"
+            >
+              Snap
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Margin</h3>
+            <p>Distance from screen edge (pixels)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowMargin"
+              min="0"
+              max="200"
+              value="30"
+            />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Opacity</h3>
+            <p>Window transparency (0.1 - 1.0)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowOpacity"
+              min="0.1"
+              max="1.0"
+              step="0.1"
+              value="1.0"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Appearance</h2>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Show Labels</h3>
+            <p>Display key labels on overlay</p>
+          </div>
+          <div class="setting-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="showLabels" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Background</h2>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Enable Background</h3>
+            <p>Fill the overlay window with a solid colour</p>
+          </div>
+          <div class="setting-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="bgEnabled" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Background Colour</h3>
+            <p>Solid colour behind the overlay elements</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="color"
+              id="bgColor"
+              value="#000000"
+              style="
+                width: 60px;
+                height: 32px;
+                padding: 2px;
+                border: 1px solid #555;
+                border-radius: 4px;
+                background: #3c3c3c;
+                cursor: pointer;
+              "
+            />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Background Opacity</h3>
+            <p>0.0 = fully transparent &nbsp; 1.0 = fully opaque</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="bgOpacity"
+              min="0"
+              max="1"
+              step="0.05"
+              value="0.5"
+              style="width: 80px"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="info">
+        💡 Changes will apply immediately. Close this window when you're done
+        configuring.
+      </div>
+
+      <div class="buttons">
+        <button class="secondary" id="resetBtn">Reset to Defaults</button>
+        <button id="saveBtn">Save & Close</button>
+      </div>
+    </div>
+
+    <script src="settings.js"></script>
+  </body>
+</html>

@@ -24,17 +24,13 @@
     "nsis": {
       "installerIcon": "src/icon.ico",
       "uninstallerIcon": "src/icon.ico",
-      "uninstallDisplayName": "CPU Monitor",
+      "uninstallDisplayName": "Input Overlay",
       "license": "license.txt",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     }
   },
   "keywords": [],
-  "author": {
-    "name": "chinsun9",
-    "email": "40482203+chinsun9@users.noreply.github.com"
-  },
   "license": "MIT",
   "config": {
     "forge": {
@@ -65,30 +61,15 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "iohook": "^0.6.6"
+    "uiohook-napi": "^1.5.4"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "^8.5.3",
-    "electron-builder": "^22.9.1"
-  },
-  "iohook": {
-    "targets": [
-      "node-72",
-      "electron-76"
-    ],
-    "platforms": [
-      "win32",
-      "darwin",
-      "linux"
-    ],
-    "arches": [
-      "x64",
-      "ia32"
-    ]
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "electron": "^32.0.1",
+    "electron-builder": "^25.0.5"
   }
 }

@@ -1,31 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>CPU Monitor</title>
+    <title>Input Overlay</title>
     <link rel="stylesheet" href="index.css" />
-    <script src="app.js"></script>
   </head>
   <body>
-    <div class="box-container">
-      <div id="key-tab">TAB</div>
-      <div id="key-Q">Q</div>
-      <div id="key-W">W</div>
-      <div id="key-E">E</div>
-      <div id="key-R">R</div>
-      <div id="nonekey"></div>
-      <div id="key-A">A</div>
-      <div id="key-S">S</div>
-      <div id="key-D">D</div>
-      <div id="key-F">F</div>
-      <div id="key-shift">SHIFT</div>
-      <div id="key-Z">Z</div>
-      <div id="key-X">X</div>
-      <div id="key-C">C</div>
-      <div id="key-V">V</div>
-      <div id="key-ctrl">CTRL</div>
-      <div id="key-space"></div>
-    </div>
+    <!-- Preset sprite canvas – absolute-positioned, fills the window when active -->
+    <canvas id="overlay-canvas"></canvas>
+
+    <!-- Legacy div-based overlay – used when no preset is configured -->
+    <div class="box-container"></div>
     <div class="mouse">
       <div class="row">
         <div id="key-leftmousebutton"></div>
@@ -36,13 +21,6 @@
       </div>
     </div>
 
-    <script>
-      // const electron = require('electron');
-      // const ipcRenderer = electron.ipcRenderer;
-
-      // ipcRenderer.on('cpu', (event, data) => {
-      //   document.querySelector('#cpu').innerHTML = data.toFixed(2);
-      // });
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>
