@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../streaming-overlays/input-overlay-presets"
+		}
+	],
+	"settings": {}
+}
