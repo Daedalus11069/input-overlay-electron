@@ -402,7 +402,71 @@
       </div>
 
       <div class="section">
-        <h2>Window Position</h2>
+        <h2>Window Size &amp; Position</h2>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Width</h3>
+            <p>Overlay window width (pixels)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowWidth"
+              min="50"
+              max="3840"
+              value="630"
+            />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Height</h3>
+            <p>Overlay window height (pixels)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowHeight"
+              min="50"
+              max="2160"
+              value="290"
+            />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>X Position</h3>
+            <p>Horizontal position from the left of the screen (pixels)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowX"
+              min="-3840"
+              max="7680"
+              placeholder="auto"
+            />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <h3>Y Position</h3>
+            <p>Vertical position from the top of the screen (pixels)</p>
+          </div>
+          <div class="setting-control">
+            <input
+              type="number"
+              id="windowY"
+              min="-2160"
+              max="4320"
+              placeholder="auto"
+            />
+          </div>
+        </div>
 
         <div class="setting-row">
           <div class="setting-label">

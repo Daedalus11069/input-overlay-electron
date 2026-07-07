@@ -88,6 +88,13 @@ function createOverlayWindow(windowId) {
       { label: "Settings", click: () => openSettingsWindow(windowId) },
       { type: "separator" },
       {
+        label: win.isMenuBarVisible() ? "Hide Menu Bar" : "Show Menu Bar",
+        click: () => {
+          win.setMenuBarVisibility(!win.isMenuBarVisible());
+        }
+      },
+      { type: "separator" },
+      {
         label: "Remove Overlay",
         click: () => {
           win.close();
@@ -108,6 +115,25 @@ function createOverlayWindow(windowId) {
     cfg.window.customX = nx;
     cfg.window.customY = ny;
     configManager.saveWindowConfig(windowId, cfg);
+    // Keep settings window in sync if open
+    const settingsWin = settingsWindows.get(windowId);
+    if (settingsWin && !settingsWin.isDestroyed()) {
+      settingsWin.webContents.send("config-updated", cfg);
+    }
+  });
+
+  // Persist resize
+  win.on("resized", () => {
+    const [nw, nh] = win.getSize();
+    const cfg = configManager.getWindowConfig(windowId);
+    cfg.window.width = nw;
+    cfg.window.height = nh;
+    configManager.saveWindowConfig(windowId, cfg);
+    // Keep settings window in sync if open
+    const settingsWin = settingsWindows.get(windowId);
+    if (settingsWin && !settingsWin.isDestroyed()) {
+      settingsWin.webContents.send("config-updated", cfg);
+    }
   });
 
   win.on("closed", () => {

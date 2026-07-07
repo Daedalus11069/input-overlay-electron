@@ -62,6 +62,10 @@ function applyConfigToUI() {
     currentConfig.overlays.mouse.enabled;
 
   // Window settings
+  document.getElementById("windowWidth").value = currentConfig.window.width;
+  document.getElementById("windowHeight").value = currentConfig.window.height;
+  document.getElementById("windowX").value = currentConfig.window.customX ?? "";
+  document.getElementById("windowY").value = currentConfig.window.customY ?? "";
   document.getElementById("windowPosition").value =
     currentConfig.window.position;
   document.getElementById("windowMargin").value = currentConfig.window.margin;
@@ -159,12 +163,17 @@ function collectConfig() {
       }
     },
     window: {
-      width: currentConfig.window.width,
-      height: currentConfig.window.height,
-      // Preserve the actual current position – only changed via the snap button
+      width: parseInt(document.getElementById("windowWidth").value),
+      height: parseInt(document.getElementById("windowHeight").value),
       position: currentConfig.window.position,
-      customX: currentConfig.window.customX,
-      customY: currentConfig.window.customY,
+      customX:
+        document.getElementById("windowX").value !== ""
+          ? parseInt(document.getElementById("windowX").value)
+          : currentConfig.window.customX,
+      customY:
+        document.getElementById("windowY").value !== ""
+          ? parseInt(document.getElementById("windowY").value)
+          : currentConfig.window.customY,
       margin: parseInt(document.getElementById("windowMargin").value),
       opacity: parseFloat(document.getElementById("windowOpacity").value)
     },
@@ -204,6 +213,10 @@ document
   .addEventListener("change", updateConfig);
 document
   .getElementById("mouseEnabled")
+  .addEventListener("change", updateConfig);
+document.getElementById("windowWidth").addEventListener("change", updateConfig);
+document
+  .getElementById("windowHeight")
   .addEventListener("change", updateConfig);
 document
   .getElementById("windowPosition")
@@ -402,6 +415,19 @@ document
   .getElementById("clearImageBtn")
   .addEventListener("click", clearImageOverride);
 document.getElementById("pressedMode").addEventListener("change", updateConfig);
+
+// Sync position/size if the overlay window is moved or resized while settings is open
+window.electronAPI.onConfigUpdate((_event, updatedConfig) => {
+  if (!currentConfig) return;
+  currentConfig = {
+    ...currentConfig,
+    window: { ...currentConfig.window, ...updatedConfig.window }
+  };
+  document.getElementById("windowWidth").value = currentConfig.window.width;
+  document.getElementById("windowHeight").value = currentConfig.window.height;
+  document.getElementById("windowX").value = currentConfig.window.customX ?? "";
+  document.getElementById("windowY").value = currentConfig.window.customY ?? "";
+});
 
 // Initialize
 loadConfig();
