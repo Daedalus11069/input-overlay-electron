@@ -1,43 +1,44 @@
 name: Build/release
 
 on:
-    release:
-        types: [published]
+  release:
+    types: [published]
 
 jobs:
-    release:
-        runs-on: ${{ matrix.os }}
+  release:
+    runs-on: ${{ matrix.os }}
 
-        permissions:
-            contents: write
+    permissions:
+      contents: write
 
-        strategy:
-            matrix:
-                os: [macos-latest, ubuntu-latest, windows-latest]
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-        steps:
-            - name: Check out Git repository
-              uses: actions/checkout@v7
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v7
 
-            - name: Install Node.js, NPM and Yarn
-              uses: actions/setup-node@v6
-              with:
-                  node-version: 22
+      - name: Install Node.js, NPM
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "npm"
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Build
-              run: npm run make
+      - name: Build
+        run: npm run make
 
-            - name: Update Release with Files
-              id: create_version_release
-              uses: ncipollo/release-action@v1
-              with:
-                  allowUpdates: true # Set this to false if you want to prevent updating existing releases
-                  name: ${{ github.event.release.name }}
-                  prerelease: ${{ github.event.release.prerelease }}
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  artifacts: "out/make/**/*.exe, out/make/**/*.dmg, out/make/**/*.AppImage"
-                  tag: ${{ github.event.release.tag_name }}
-                  body: ${{ github.event.release.body }}
+      - name: Update Release with Files
+        id: create_version_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true # Set this to false if you want to prevent updating existing releases
+          name: ${{ github.event.release.name }}
+          prerelease: ${{ github.event.release.prerelease }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "out/make/**/*.exe, out/make/**/*.dmg, out/make/**/*.AppImage"
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}
