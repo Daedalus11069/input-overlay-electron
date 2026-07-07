@@ -16,6 +16,9 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+app.commandLine.appendSwitch("disable-renderer-backgrounding");
+app.commandLine.appendSwitch("disable-background-timer-throttling");
+
 const configManager = new ConfigManager();
 
 // windowId -> BrowserWindow (overlay windows)
@@ -68,7 +71,8 @@ function createOverlayWindow(windowId) {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      backgroundThrottling: false
     },
     x,
     y
